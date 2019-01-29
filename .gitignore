@@ -65,3 +65,6 @@ typings/
 
 # Mac OS
 .DS_Store
+
+# Electron
+/release-builds
