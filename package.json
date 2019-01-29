@@ -5,7 +5,7 @@
   "main": "electron.js",
   "homepage": "./",
   "scripts": {
-    "start": "BROWSER=none react-scripts start & sleep 5 && NODE_ENV=DEV electron .",
+    "start": "BROWSER=none react-scripts start ; sleep 5 && NODE_ENV=DEV electron .",
     "electron": "react-scripts build; electron .",
     "test": "react-scripts test",
     "package-mac": "react-scripts build; electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",

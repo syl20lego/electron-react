@@ -67,6 +67,10 @@ const createWindow = () => {
   }
 }
 app.on('ready', () => createWindow())
+
+app.on('window-all-closed', () => {
+  app.quit()
+})
 ```
 
 ## Edit package.json
@@ -139,3 +143,69 @@ Add icons under `asserts/icons`
 `yarn package-mac`
 `yarn package-linux`
 `yarn package-win`
+
+# Create basic menu
+
+## electron.js
+Add Menu from electron
+
+```
+const { app, BrowserWindow, Menu } = require('electron')
+```
+
+```
+const createMenu = () => {
+  // Create menu template
+  const mainMenuTemplate = [
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'Quit',
+          accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+          click() {
+            app.quit()
+          }
+        }
+      ]
+    }
+  ]
+
+  // On Mac Menu, add emtpy object
+  if (process.platform == 'darwin') {
+    mainMenuTemplate.unshift({ label: '' })
+  }
+
+  //Add dev toolls if not in prod
+  // if (process.env.NODE_ENV === 'DEV') {
+  mainMenuTemplate.push({
+    label: 'Developer Tools',
+    submenu: [
+      {
+        label: 'Toggle Dev tools',
+        accelerator: process.platform == 'darwin' ? 'Command+I' : 'Ctrl+I',
+        click(item, focusedWindow) {
+          focusedWindow.toggleDevTools()
+        }
+      },
+      {
+        role: 'reload'
+      }
+    ]
+  })
+  // Build menu from tamplate
+  const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
+  // Insert menu
+  Menu.setApplicationMenu(mainMenu)
+}
+```
+
+```
+  window.on('closed', () => {
+    window = null
+  })
+  createMenu()
+```
+
+
+
